@@ -73,6 +73,11 @@ web_modules/
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
+.DS_Store
+
+# Design
+requirements.md
+plan.md
 
 # Next.js build output
 .next
