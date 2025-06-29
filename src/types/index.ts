@@ -1,5 +1,8 @@
 // Core application types and interfaces
 
+export * from './contact'
+export * from './meeting'
+
 export interface User {
   id: string
   name: string
