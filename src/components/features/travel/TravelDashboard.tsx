@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
   Box,
-  Grid,
   Card,
   CardContent,
   Typography,
@@ -288,59 +287,60 @@ export const TravelDashboard: React.FC = () => {
         </Typography>
 
         {insights ? (
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" color="primary.main">
-                  {insights.totalTrips}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Total Trips
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" color="success.main">
-                  {insights.totalDays}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Days Traveled
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" color="warning.main">
-                  {insights.favoriteDestinations.length}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Destinations
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" color="info.main">
-                  ${insights.totalSpent.toLocaleString()}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Total Spent
-                </Typography>
-              </Box>
-            </Grid>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: 2,
+            }}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h4" color="primary.main">
+                {insights.totalTrips}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Total Trips
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h4" color="success.main">
+                {insights.totalDays}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Days Traveled
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h4" color="warning.main">
+                {insights.favoriteDestinations.length}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Destinations
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h4" color="info.main">
+                ${insights.totalSpent.toLocaleString()}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Total Spent
+              </Typography>
+            </Box>
 
             {insights.favoriteDestinations.length > 0 && (
               <>
-                <Grid item xs={12}>
+                <Box sx={{ gridColumn: '1 / -1' }}>
                   <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
                     Top Destinations
                   </Typography>
-                </Grid>
+                </Box>
                 {insights.favoriteDestinations
                   .slice(0, 3)
                   .map((dest, index) => (
-                    <Grid item xs={12} key={`${dest.city}-${dest.country}`}>
+                    <Box
+                      key={`${dest.city}-${dest.country}`}
+                      sx={{ gridColumn: '1 / -1' }}
+                    >
                       <Box
                         sx={{
                           display: 'flex',
@@ -357,11 +357,11 @@ export const TravelDashboard: React.FC = () => {
                           variant="outlined"
                         />
                       </Box>
-                    </Grid>
+                    </Box>
                   ))}
               </>
             )}
-          </Grid>
+          </Box>
         ) : (
           <Box sx={{ textAlign: 'center', py: 2 }}>
             <Typography variant="body2" color="text.secondary">
@@ -380,19 +380,22 @@ export const TravelDashboard: React.FC = () => {
           Quick Actions
         </Typography>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => setPlannerOpen(true)}
-              sx={{ mb: 1 }}
-            >
-              Plan New Trip
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setPlannerOpen(true)}
+          >
+            Plan New Trip
+          </Button>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: 2,
+            }}
+          >
             <Button
               fullWidth
               variant="outlined"
@@ -401,8 +404,6 @@ export const TravelDashboard: React.FC = () => {
             >
               Checklists
             </Button>
-          </Grid>
-          <Grid item xs={6}>
             <Button
               fullWidth
               variant="outlined"
@@ -411,8 +412,6 @@ export const TravelDashboard: React.FC = () => {
             >
               Expenses
             </Button>
-          </Grid>
-          <Grid item xs={6}>
             <Button
               fullWidth
               variant="outlined"
@@ -421,8 +420,6 @@ export const TravelDashboard: React.FC = () => {
             >
               Map View
             </Button>
-          </Grid>
-          <Grid item xs={6}>
             <Button
               fullWidth
               variant="outlined"
@@ -431,8 +428,8 @@ export const TravelDashboard: React.FC = () => {
             >
               Analytics
             </Button>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   )
@@ -504,28 +501,34 @@ export const TravelDashboard: React.FC = () => {
         </Button>
       </Box>
 
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         {/* First Row - Main Widgets */}
-        <Grid item xs={12} md={8}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' },
+            gap: 3,
+          }}
+        >
           {renderUpcomingTripsWidget()}
-        </Grid>
-        <Grid item xs={12} md={4}>
           {renderCurrentTravelStatus()}
-        </Grid>
+        </Box>
 
         {/* Second Row - Statistics and Actions */}
-        <Grid item xs={12} md={6}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+            gap: 3,
+          }}
+        >
           {renderTravelStatistics()}
-        </Grid>
-        <Grid item xs={12} md={6}>
           {renderQuickActions()}
-        </Grid>
+        </Box>
 
         {/* Third Row - Recent Activity */}
-        <Grid item xs={12}>
-          {renderRecentActivity()}
-        </Grid>
-      </Grid>
+        <Box>{renderRecentActivity()}</Box>
+      </Box>
 
       {/* Floating Action Button for Mobile */}
       <Fab

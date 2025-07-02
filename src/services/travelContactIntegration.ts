@@ -120,7 +120,7 @@ class TravelContactIntegrationService implements TravelContactIntegration {
    * Get travel history for a specific contact
    */
   async trackContactTravelHistory(contactId: string): Promise<TravelHistory[]> {
-    const contact = await contactsService.getContactById(contactId)
+    const contact = await contactsService.getContact(contactId)
     if (!contact) {
       throw new Error(`Contact with ID ${contactId} not found`)
     }
