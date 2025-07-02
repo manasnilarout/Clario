@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   Box,
   Typography,
@@ -103,14 +103,7 @@ const SchedulingAssistant: React.FC<SchedulingAssistantProps> = ({
   const [selectedSuggestion, setSelectedSuggestion] =
     useState<TimeSlotSuggestion | null>(null)
 
-  // Generate time slot suggestions
-  useEffect(() => {
-    if (attendeeIds.length > 0 && duration > 0) {
-      generateSuggestions()
-    }
-  }, [attendeeIds, duration, searchRange, preferences, preferredStartTime])
-
-  const generateSuggestions = async () => {
+  const generateSuggestions = useCallback(async () => {
     setIsLoading(true)
     try {
       const startDate = preferredStartTime || new Date()
@@ -133,7 +126,31 @@ const SchedulingAssistant: React.FC<SchedulingAssistantProps> = ({
     } finally {
       setIsLoading(false)
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    preferredStartTime,
+    searchRange,
+    attendeeIds,
+    duration,
+    preferences,
+    getAttendeeAvailability,
+    checkMeetingConflicts,
+    excludeMeetingId,
+  ])
+
+  // Generate time slot suggestions
+  useEffect(() => {
+    if (attendeeIds.length > 0 && duration > 0) {
+      generateSuggestions()
+    }
+  }, [
+    attendeeIds,
+    duration,
+    searchRange,
+    preferences,
+    preferredStartTime,
+    generateSuggestions,
+  ])
 
   const generateTimeSlots = (startDate: Date, endDate: Date): Date[] => {
     const slots: Date[] = []
