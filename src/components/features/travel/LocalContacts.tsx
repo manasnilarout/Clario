@@ -415,10 +415,12 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                               {contact.firstName} {contact.lastName}
                             </Typography>
                             <Chip
-                              label={contact.importance}
+                              label={contact.priority || 'medium'}
                               size="small"
                               color={
-                                getImportanceColor(contact.importance) as any
+                                getImportanceColor(
+                                  contact.priority || 'medium'
+                                ) as any
                               }
                               variant="outlined"
                             />
@@ -429,13 +431,14 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                             <Typography variant="body2" color="text.secondary">
                               {contact.company} • {contact.position}
                             </Typography>
-                            {contact.lastContact && (
+                            {contact.lastContactedAt && (
                               <Typography
                                 variant="caption"
                                 color="text.secondary"
                               >
                                 Last contact:{' '}
-                                {formatDistanceToNow(contact.lastContact)} ago
+                                {formatDistanceToNow(contact.lastContactedAt)}{' '}
+                                ago
                               </Typography>
                             )}
                           </Box>
@@ -551,50 +554,46 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
               <Typography variant="h6" gutterBottom>
                 Quick Stats
               </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="primary">
-                      {selectedDestinationData.contacts.length}
-                    </Typography>
-                    <Typography variant="caption">Local Contacts</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="primary">
-                      {selectedDestinationData.suggestions.length}
-                    </Typography>
-                    <Typography variant="caption">
-                      Meeting Suggestions
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="primary">
-                      {
-                        selectedDestinationData.contacts.filter(
-                          c => c.importance === 'high'
-                        ).length
-                      }
-                    </Typography>
-                    <Typography variant="caption">High Priority</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="primary">
-                      {
-                        selectedDestinationData.suggestions.filter(
-                          s => s.meetingType === 'business'
-                        ).length
-                      }
-                    </Typography>
-                    <Typography variant="caption">Business Meetings</Typography>
-                  </Box>
-                </Grid>
-              </Grid>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: 2,
+                }}
+              >
+                <Box textAlign="center">
+                  <Typography variant="h4" color="primary">
+                    {selectedDestinationData.contacts.length}
+                  </Typography>
+                  <Typography variant="caption">Local Contacts</Typography>
+                </Box>
+                <Box textAlign="center">
+                  <Typography variant="h4" color="primary">
+                    {selectedDestinationData.suggestions.length}
+                  </Typography>
+                  <Typography variant="caption">Meeting Suggestions</Typography>
+                </Box>
+                <Box textAlign="center">
+                  <Typography variant="h4" color="primary">
+                    {
+                      selectedDestinationData.contacts.filter(
+                        c => c.priority === 'high'
+                      ).length
+                    }
+                  </Typography>
+                  <Typography variant="caption">High Priority</Typography>
+                </Box>
+                <Box textAlign="center">
+                  <Typography variant="h4" color="primary">
+                    {
+                      selectedDestinationData.suggestions.filter(
+                        s => s.meetingType === 'business'
+                      ).length
+                    }
+                  </Typography>
+                  <Typography variant="caption">Business Meetings</Typography>
+                </Box>
+              </Box>
             </Paper>
           </Grid>
         </Grid>
@@ -624,10 +623,12 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                     {selectedContact.company} • {selectedContact.position}
                   </Typography>
                   <Chip
-                    label={selectedContact.importance}
+                    label={selectedContact.priority || 'medium'}
                     size="small"
                     color={
-                      getImportanceColor(selectedContact.importance) as any
+                      getImportanceColor(
+                        selectedContact.priority || 'medium'
+                      ) as any
                     }
                     variant="outlined"
                   />
@@ -678,14 +679,15 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                   </Grid>
                 )}
 
-                {selectedContact.lastContact && (
+                {selectedContact.lastContactedAt && (
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" gutterBottom>
                       Last Contact
                     </Typography>
                     <Typography variant="body2">
-                      {format(selectedContact.lastContact, 'MMM dd, yyyy')}(
-                      {formatDistanceToNow(selectedContact.lastContact)} ago)
+                      {format(selectedContact.lastContactedAt, 'MMM dd, yyyy')}(
+                      {formatDistanceToNow(selectedContact.lastContactedAt)}{' '}
+                      ago)
                     </Typography>
                   </Grid>
                 )}

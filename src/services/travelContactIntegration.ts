@@ -71,7 +71,11 @@ class TravelContactIntegrationService implements TravelContactIntegration {
       const locationStrings = [
         contact.company?.toLowerCase() || '',
         contact.notes?.toLowerCase() || '',
-        contact.socialProfiles?.map(p => p.url.toLowerCase()).join(' ') || '',
+        contact.socialLinks
+          ? Object.values(contact.socialLinks)
+              .filter(link => link)
+              .join(' ')
+          : '',
       ].join(' ')
 
       const cityMatch = locationStrings.includes(city.toLowerCase())
@@ -125,7 +129,7 @@ class TravelContactIntegrationService implements TravelContactIntegration {
       throw new Error(`Contact with ID ${contactId} not found`)
     }
 
-    const allTrips = await travelService.getTrips()
+    const allTrips = await travelService.getAllTrips()
     const allMeetings = await meetingsService.getMeetings()
 
     const travelHistory: TravelHistory[] = []
@@ -172,7 +176,7 @@ class TravelContactIntegrationService implements TravelContactIntegration {
     contactId: string
   ): Promise<TravelPatterns> {
     const travelHistory = await this.trackContactTravelHistory(contactId)
-    const allTrips = await travelService.getTrips()
+    const allTrips = await travelService.getAllTrips()
     const allMeetings = await meetingsService.getMeetings()
 
     // Analyze frequent destinations
@@ -301,7 +305,7 @@ class TravelContactIntegrationService implements TravelContactIntegration {
     lastInteraction: Date
     recommendedActions: string[]
   }> {
-    const contact = await contactsService.getContactById(contactId)
+    const contact = await contactsService.getContact(contactId)
     if (!contact) {
       throw new Error(`Contact with ID ${contactId} not found`)
     }
@@ -412,8 +416,8 @@ class TravelContactIntegrationService implements TravelContactIntegration {
     contact: Contact,
     trip: Trip
   ): ContactMeetingSuggestion['meetingType'] {
-    // Business trip with high-importance contact = business meeting
-    if (trip.purpose === 'business' && contact.importance === 'high')
+    // Business trip with high-priority contact = business meeting
+    if (trip.purpose === 'business' && contact.priority === 'high')
       return 'business'
     if (trip.purpose === 'client_visit') return 'business'
     if (trip.purpose === 'conference') return 'networking'
@@ -435,9 +439,9 @@ class TravelContactIntegrationService implements TravelContactIntegration {
   ): ContactMeetingSuggestion['priority'] {
     let score = 0
 
-    // Contact importance
-    if (contact.importance === 'high') score += 3
-    else if (contact.importance === 'medium') score += 2
+    // Contact priority
+    if (contact.priority === 'high') score += 3
+    else if (contact.priority === 'medium') score += 2
     else score += 1
 
     // Trip purpose relevance
@@ -450,9 +454,9 @@ class TravelContactIntegrationService implements TravelContactIntegration {
       score += 2
 
     // Recent interaction history
-    if (contact.lastContact) {
+    if (contact.lastContactedAt) {
       const daysSince =
-        (Date.now() - contact.lastContact.getTime()) / (1000 * 60 * 60 * 24)
+        (Date.now() - contact.lastContactedAt.getTime()) / (1000 * 60 * 60 * 24)
       if (daysSince > 90) score += 1 // Haven't met recently
     } else {
       score += 2 // Never met
@@ -532,9 +536,9 @@ class TravelContactIntegrationService implements TravelContactIntegration {
 
     let duration = baseDurations[meetingType]
 
-    // Adjust based on contact importance
-    if (contact.importance === 'high') duration += 15
-    else if (contact.importance === 'low') duration -= 15
+    // Adjust based on contact priority
+    if (contact.priority === 'high') duration += 15
+    else if (contact.priority === 'low') duration -= 15
 
     return Math.max(15, duration) // Minimum 15 minutes
   }
@@ -558,13 +562,13 @@ class TravelContactIntegrationService implements TravelContactIntegration {
   }
 
   private assessFollowUpNeeds(meetings: Meeting[], contact: Contact): boolean {
-    // Check if there are pending action items or if this is a high-importance contact
+    // Check if there are pending action items or if this is a high-priority contact
     return (
       meetings.some(
         m =>
           m.actionItems &&
           m.actionItems.some(item => item.status !== 'completed')
-      ) || contact.importance === 'high'
+      ) || contact.priority === 'high'
     )
   }
 
@@ -580,7 +584,7 @@ class TravelContactIntegrationService implements TravelContactIntegration {
     ]
 
     // Add contact-specific opportunities
-    const highValueContacts = contacts.filter(c => c.importance === 'high')
+    const highValueContacts = contacts.filter(c => c.priority === 'high')
     if (highValueContacts.length > 0) {
       opportunities.push(
         `${highValueContacts.length} high-value contacts available for strategic meetings`
@@ -655,7 +659,7 @@ class TravelContactIntegrationService implements TravelContactIntegration {
       recommendations.push('Look for collaboration opportunities')
     }
 
-    if (contact.importance === 'high' && strengthScore < 50) {
+    if (contact.priority === 'high' && strengthScore < 50) {
       recommendations.push(
         'Priority: Invest more time in this key relationship'
       )

@@ -6,7 +6,6 @@ import {
   Typography,
   Button,
   Chip,
-  Grid,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -256,43 +255,48 @@ const TravelTasks: React.FC<TravelTasksProps> = ({ trip, onTaskUpdate }) => {
             />
           </Box>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(4, 1fr)',
+              },
+              gap: 2,
+            }}
+          >
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<AutoAwesomeIcon />}
+              onClick={() => setGenerateDialogOpen(true)}
+              disabled={generatingTasks}
+            >
+              Generate Pre-Travel Tasks
+            </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<AddIcon />}
+              onClick={handleGeneratePostTravelTasks}
+              disabled={generatingTasks || isUpcoming}
+            >
+              Generate Follow-Up Tasks
+            </Button>
+            {trip.destinations.map((destination, index) => (
               <Button
+                key={destination.id}
                 fullWidth
                 variant="outlined"
-                startIcon={<AutoAwesomeIcon />}
-                onClick={() => setGenerateDialogOpen(true)}
+                size="small"
+                onClick={() => handleGenerateLocationTasks(destination.id)}
                 disabled={generatingTasks}
               >
-                Generate Pre-Travel Tasks
+                {destination.city} Tasks
               </Button>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<AddIcon />}
-                onClick={handleGeneratePostTravelTasks}
-                disabled={generatingTasks || isUpcoming}
-              >
-                Generate Follow-Up Tasks
-              </Button>
-            </Grid>
-            {trip.destinations.map((destination, index) => (
-              <Grid item xs={12} sm={6} md={3} key={destination.id}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  size="small"
-                  onClick={() => handleGenerateLocationTasks(destination.id)}
-                  disabled={generatingTasks}
-                >
-                  {destination.city} Tasks
-                </Button>
-              </Grid>
             ))}
-          </Grid>
+          </Box>
         </CardContent>
       </Card>
 

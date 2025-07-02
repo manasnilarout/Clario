@@ -23,7 +23,6 @@ import {
   MenuItem,
   Chip,
   LinearProgress,
-  Grid,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -295,28 +294,30 @@ export const TravelChecklist: React.FC<TravelChecklistProps> = ({ tripId }) => {
             />
           </Box>
 
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h6" color="error.main">
-                  {overdue.length}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Overdue
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h6" color="warning.main">
-                  {upcoming.length}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Due Soon
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: 2,
+            }}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h6" color="error.main">
+                {overdue.length}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Overdue
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h6" color="warning.main">
+                {upcoming.length}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Due Soon
+              </Typography>
+            </Box>
+          </Box>
         </CardContent>
       </Card>
     )
@@ -325,58 +326,59 @@ export const TravelChecklist: React.FC<TravelChecklistProps> = ({ tripId }) => {
   const renderFiltersAndSort = () => (
     <Card sx={{ mb: 2 }}>
       <CardContent>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth size="small">
-              <InputLabel>Category</InputLabel>
-              <Select
-                value={filterCategory}
-                onChange={e => setFilterCategory(e.target.value)}
-                startAdornment={
-                  <FilterIcon sx={{ mr: 1, color: 'action.active' }} />
-                }
-              >
-                <MenuItem value="all">All Categories</MenuItem>
-                <MenuItem value="documents">Documents</MenuItem>
-                <MenuItem value="packing">Packing</MenuItem>
-                <MenuItem value="booking">Booking</MenuItem>
-                <MenuItem value="health">Health</MenuItem>
-                <MenuItem value="work">Work</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth size="small">
-              <InputLabel>Status</InputLabel>
-              <Select
-                value={filterCompleted}
-                onChange={e => setFilterCompleted(e.target.value)}
-              >
-                <MenuItem value="all">All Items</MenuItem>
-                <MenuItem value="pending">Pending</MenuItem>
-                <MenuItem value="completed">Completed</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth size="small">
-              <InputLabel>Sort By</InputLabel>
-              <Select
-                value={sortBy}
-                onChange={e => setSortBy(e.target.value)}
-                startAdornment={
-                  <SortIcon sx={{ mr: 1, color: 'action.active' }} />
-                }
-              >
-                <MenuItem value="priority">Priority</MenuItem>
-                <MenuItem value="category">Category</MenuItem>
-                <MenuItem value="dueDate">Due Date</MenuItem>
-                <MenuItem value="title">Title</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+            gap: 2,
+            alignItems: 'center',
+          }}
+        >
+          <FormControl fullWidth size="small">
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={filterCategory}
+              onChange={e => setFilterCategory(e.target.value)}
+              startAdornment={
+                <FilterIcon sx={{ mr: 1, color: 'action.active' }} />
+              }
+            >
+              <MenuItem value="all">All Categories</MenuItem>
+              <MenuItem value="documents">Documents</MenuItem>
+              <MenuItem value="packing">Packing</MenuItem>
+              <MenuItem value="booking">Booking</MenuItem>
+              <MenuItem value="health">Health</MenuItem>
+              <MenuItem value="work">Work</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth size="small">
+            <InputLabel>Status</InputLabel>
+            <Select
+              value={filterCompleted}
+              onChange={e => setFilterCompleted(e.target.value)}
+            >
+              <MenuItem value="all">All Items</MenuItem>
+              <MenuItem value="pending">Pending</MenuItem>
+              <MenuItem value="completed">Completed</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth size="small">
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              onChange={e => setSortBy(e.target.value)}
+              startAdornment={
+                <SortIcon sx={{ mr: 1, color: 'action.active' }} />
+              }
+            >
+              <MenuItem value="priority">Priority</MenuItem>
+              <MenuItem value="category">Category</MenuItem>
+              <MenuItem value="dueDate">Due Date</MenuItem>
+              <MenuItem value="title">Title</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </CardContent>
     </Card>
   )
@@ -610,7 +612,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
         description: formData.description.trim(),
         category: formData.category,
         priority: formData.priority,
-        dueDate: formData.dueDate,
+        dueDate: formData.dueDate || undefined,
         notes: formData.notes.trim(),
       })
     }
@@ -623,32 +625,34 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
       </DialogTitle>
       <DialogContent>
         <Box sx={{ mt: 2 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Title"
-                value={formData.title}
-                onChange={e =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                placeholder="e.g., Check passport validity"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                label="Description (Optional)"
-                value={formData.description}
-                onChange={e =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-                placeholder="Additional details about this task..."
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <TextField
+              fullWidth
+              label="Title"
+              value={formData.title}
+              onChange={e =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+              placeholder="e.g., Check passport validity"
+            />
+            <TextField
+              fullWidth
+              multiline
+              rows={3}
+              label="Description (Optional)"
+              value={formData.description}
+              onChange={e =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              placeholder="Additional details about this task..."
+            />
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+                gap: 2,
+              }}
+            >
               <FormControl fullWidth>
                 <InputLabel>Category</InputLabel>
                 <Select
@@ -668,8 +672,6 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
                   <MenuItem value="other">Other</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6}>
               <FormControl fullWidth>
                 <InputLabel>Priority</InputLabel>
                 <Select
@@ -686,29 +688,25 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
                   <MenuItem value="low">Low</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <DatePicker
-                label="Due Date (Optional)"
-                value={formData.dueDate}
-                onChange={date => setFormData({ ...formData, dueDate: date })}
-                slotProps={{ textField: { fullWidth: true } }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                multiline
-                rows={2}
-                label="Notes (Optional)"
-                value={formData.notes}
-                onChange={e =>
-                  setFormData({ ...formData, notes: e.target.value })
-                }
-                placeholder="Any additional notes..."
-              />
-            </Grid>
-          </Grid>
+            </Box>
+            <DatePicker
+              label="Due Date (Optional)"
+              value={formData.dueDate}
+              onChange={date => setFormData({ ...formData, dueDate: date })}
+              slotProps={{ textField: { fullWidth: true } }}
+            />
+            <TextField
+              fullWidth
+              multiline
+              rows={2}
+              label="Notes (Optional)"
+              value={formData.notes}
+              onChange={e =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
+              placeholder="Any additional notes..."
+            />
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>
