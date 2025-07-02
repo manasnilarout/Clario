@@ -46,7 +46,9 @@ export default [
       'prettier/prettier': 'error',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-case-declarations': 'off',
       '@typescript-eslint/no-unnecessary-type-constraint': 'off',
+      'no-case-declarations': 'off',
     },
   },
 ]
