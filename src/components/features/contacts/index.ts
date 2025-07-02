@@ -1,1 +1,7 @@
-// TODO: Export components when they are created
+export { default as ContactCard } from './ContactCard'
+export { default as ContactForm } from './ContactForm'
+export { default as ContactsList } from './ContactsList'
+export { default as ContactsSearchBar } from './ContactsSearchBar'
+export { default as ContactsFilters } from './ContactsFilters'
+export { default as BulkActionsToolbar } from './BulkActionsToolbar'
+export { default as TravelHistory } from './TravelHistory'

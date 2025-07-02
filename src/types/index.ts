@@ -3,6 +3,7 @@
 export * from './contact'
 export * from './meeting'
 export * from './task'
+export * from './travel'
 
 export interface User {
   id: string
