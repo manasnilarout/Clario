@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   Box,
   TextField,
@@ -78,26 +78,16 @@ const AttendeeSelector: React.FC<AttendeeSelectorProps> = ({
 
   // Initialize roles for selected attendees
   useEffect(() => {
-    const newRoles = selectedAttendees.map(id => {
-      const existing = attendeeRoles.find(r => r.contactId === id)
-      return existing || { contactId: id, role: 'required' as const }
+    setAttendeeRoles(prevRoles => {
+      const newRoles = selectedAttendees.map(id => {
+        const existing = prevRoles.find(r => r.contactId === id)
+        return existing || { contactId: id, role: 'required' as const }
+      })
+      return newRoles
     })
-    setAttendeeRoles(newRoles)
   }, [selectedAttendees])
 
-  // Check availability when time changes
-  useEffect(() => {
-    if (
-      showAvailability &&
-      startTime &&
-      endTime &&
-      selectedAttendees.length > 0
-    ) {
-      checkAvailability()
-    }
-  }, [startTime, endTime, selectedAttendees, showAvailability])
-
-  const checkAvailability = async () => {
+  const checkAvailability = useCallback(async () => {
     if (!startTime || !endTime || selectedAttendees.length === 0) return
 
     setIsLoadingAvailability(true)
@@ -120,7 +110,25 @@ const AttendeeSelector: React.FC<AttendeeSelectorProps> = ({
     } finally {
       setIsLoadingAvailability(false)
     }
-  }
+  }, [startTime, endTime, selectedAttendees, getAttendeeAvailability])
+
+  // Check availability when time changes
+  useEffect(() => {
+    if (
+      showAvailability &&
+      startTime &&
+      endTime &&
+      selectedAttendees.length > 0
+    ) {
+      checkAvailability()
+    }
+  }, [
+    startTime,
+    endTime,
+    selectedAttendees,
+    showAvailability,
+    checkAvailability,
+  ])
 
   // Filter contacts based on search and filters
   const filteredContacts = useMemo(() => {

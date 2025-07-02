@@ -126,13 +126,8 @@ const Calendar: React.FC<CalendarProps> = ({
       default:
         return getMonthCalendarData()
     }
-  }, [
-    calendarView,
-    currentDate,
-    filteredMeetings,
-    getMeetingsByDate,
-    getMeetingsByDateRange,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calendarView])
 
   function getMonthCalendarData(): CalendarMonth {
     const monthStart = startOfMonth(currentDate)
