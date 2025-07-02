@@ -68,11 +68,11 @@ const Travel: React.FC = () => {
         </TabPanel>
 
         <TabPanel value={activeTab} index={1}>
-          <TripPlanner />
+          <TripPlanner open={activeTab === 1} onClose={() => setActiveTab(0)} />
         </TabPanel>
 
         <TabPanel value={activeTab} index={2}>
-          <TravelChecklist />
+          <TravelChecklist tripId="default" />
         </TabPanel>
 
         <TabPanel value={activeTab} index={3}>

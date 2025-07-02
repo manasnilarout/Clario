@@ -512,14 +512,14 @@ const generateTrip = (
         {
           id: `checklist-${id}-business-1`,
           title: 'Prepare presentation materials',
-          category: 'other' as const,
+          category: 'documents' as const,
           priority: 'high' as const,
           completed: status !== TripStatus.PLANNING,
         },
         {
           id: `checklist-${id}-business-2`,
           title: 'Schedule client meetings',
-          category: 'other' as const,
+          category: 'booking' as const,
           priority: 'high' as const,
           completed: status !== TripStatus.PLANNING,
         }
