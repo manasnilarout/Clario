@@ -233,6 +233,7 @@ export interface MeetingFormData {
   location?: MeetingLocation
   type: MeetingType
   priority: MeetingPriority
+  status?: MeetingStatus
   recurrence?: RecurrencePattern
   tags: string[]
   isPrivate: boolean

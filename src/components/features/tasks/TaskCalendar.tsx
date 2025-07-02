@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
   Avatar,
-  Grid,
   Switch,
   FormControlLabel,
   Divider,
@@ -22,6 +21,7 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
@@ -295,10 +295,8 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({
         {/* Week day headers */}
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
           <Grid
-            item
-            xs
+            sx={{ flex: 1, borderRight: 1, borderColor: 'divider' }}
             key={day}
-            sx={{ borderRight: 1, borderColor: 'divider' }}
           >
             <Box
               sx={{
@@ -334,10 +332,9 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({
 
             return (
               <Grid
-                item
-                xs
                 key={`${weekIndex}-${dayIndex}`}
                 sx={{
+                  flex: 1,
                   height: '160px',
                   borderRight: 1,
                   borderBottom: 1,

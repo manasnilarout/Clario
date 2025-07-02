@@ -141,8 +141,11 @@ const TaskCard: React.FC<TaskCardProps> = ({
     setAnchorEl(event.currentTarget)
   }
 
-  const handleMenuClose = (event?: React.MouseEvent) => {
-    if (event) event.stopPropagation()
+  const handleMenuClose = (
+    event?: React.MouseEvent | object,
+    reason?: 'backdropClick' | 'escapeKeyDown'
+  ) => {
+    if (event && 'stopPropagation' in event) event.stopPropagation()
     setAnchorEl(null)
   }
 

@@ -49,6 +49,7 @@ export interface Contact {
   timezone?: string
   language?: string
   department?: string
+  interactionCount?: number
 }
 
 export interface ContactTag {

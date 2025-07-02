@@ -49,27 +49,16 @@ const AttendeeSelector: React.FC<AttendeeSelectorProps> = ({
   onRoleChange: _onRoleChange,
   startTime,
   endTime,
-  excludeMeetingId,
-  maxAttendees,
   showAvailability = true,
-  showRoles = true,
-  showExternalInvite = true,
-  compact = false,
 }) => {
-  const { contacts, loadContacts, searchContacts } = useContactsStore()
-  const { getAttendeeAvailability, checkMeetingConflicts } = useMeetingsStore()
+  const { contacts, loadContacts } = useContactsStore()
+  const { getAttendeeAvailability } = useMeetingsStore()
 
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
-  const [selectedDepartments, setSelectedDepartments] = useState<string[]>([])
   const [attendeeRoles, setAttendeeRoles] = useState<AttendeeRole[]>([])
   const [availabilityData, setAvailabilityData] = useState<
     Record<string, MeetingAvailability>
   >({})
   const [isLoadingAvailability, setIsLoadingAvailability] = useState(false)
-  const [showExternalDialog, setShowExternalDialog] = useState(false)
-  const [externalEmail, setExternalEmail] = useState('')
-  const [externalName, setExternalName] = useState('')
 
   // Load contacts on component mount
   useEffect(() => {
@@ -132,45 +121,8 @@ const AttendeeSelector: React.FC<AttendeeSelectorProps> = ({
 
   // Filter contacts based on search and filters
   const filteredContacts = useMemo(() => {
-    let filtered = contacts
-
-    if (searchQuery) {
-      filtered = searchContacts(searchQuery)
-    }
-
-    if (selectedCompanies.length > 0) {
-      filtered = filtered.filter(
-        contact =>
-          contact.company && selectedCompanies.includes(contact.company)
-      )
-    }
-
-    if (selectedDepartments.length > 0) {
-      filtered = filtered.filter(
-        contact =>
-          contact.department && selectedDepartments.includes(contact.department)
-      )
-    }
-
-    return filtered
-  }, [
-    contacts,
-    searchQuery,
-    selectedCompanies,
-    selectedDepartments,
-    searchContacts,
-  ])
-
-  // Get unique companies and departments for filters
-  const companies = useMemo(
-    () => [...new Set(contacts.map(c => c.company).filter(Boolean))],
-    [contacts]
-  )
-
-  const departments = useMemo(
-    () => [...new Set(contacts.map(c => c.department).filter(Boolean))],
-    [contacts]
-  )
+    return contacts
+  }, [contacts])
 
   // Get attendees with their roles and availability
   const attendeesWithRoles: AttendeeWithRole[] = useMemo(() => {

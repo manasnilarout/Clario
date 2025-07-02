@@ -7,7 +7,6 @@ import {
   CardActions,
   Button,
   Chip,
-  Grid,
   Alert,
   CircularProgress,
   FormControl,
@@ -20,6 +19,7 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
   Group as GroupIcon,
   Warning as WarningIcon,
@@ -410,7 +410,7 @@ const SchedulingAssistant: React.FC<SchedulingAssistantProps> = ({
       {!isLoading && suggestions.length > 0 && (
         <Grid container spacing={2}>
           {suggestions.map((suggestion, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
               <Card
                 sx={{
                   height: '100%',

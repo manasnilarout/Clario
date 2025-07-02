@@ -765,8 +765,8 @@ export const useMeetingsStore = create<MeetingsState>()(
 
         // Apply sorting
         filtered.sort((a, b) => {
-          let aValue: any = a[sortBy.field]
-          let bValue: any = b[sortBy.field]
+          let aValue: any
+          let bValue: any
 
           // Handle special computed fields
           if (sortBy.field === 'duration') {
@@ -775,6 +775,9 @@ export const useMeetingsStore = create<MeetingsState>()(
           } else if (sortBy.field === 'attendeeCount') {
             aValue = a.attendees.length
             bValue = b.attendees.length
+          } else {
+            aValue = a[sortBy.field as keyof Meeting]
+            bValue = b[sortBy.field as keyof Meeting]
           }
 
           if (aValue === bValue) return 0

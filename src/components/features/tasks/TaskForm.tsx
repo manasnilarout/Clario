@@ -15,7 +15,6 @@ import {
   Select,
   MenuItem,
   Autocomplete,
-  Grid,
   Switch,
   FormControlLabel,
   Divider,
@@ -29,6 +28,7 @@ import {
   Stack,
   Alert,
 } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
   Close as CloseIcon,
   Add as AddIcon,
@@ -88,8 +88,8 @@ const TaskForm: React.FC = () => {
     tasks,
   } = useTasksStore()
 
-  const { getContacts } = useContactsStore()
-  const { getMeetings } = useMeetingsStore()
+  const { contacts: contactsData } = useContactsStore()
+  const { meetings: meetingsData } = useMeetingsStore()
 
   const [tabValue, setTabValue] = useState(0)
   const [contacts, setContacts] = useState<any[]>([])
@@ -124,23 +124,11 @@ const TaskForm: React.FC = () => {
   const isEditMode = isEditing && editingTaskId
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [contactsData, meetingsData] = await Promise.all([
-          getContacts(),
-          getMeetings(),
-        ])
-        setContacts(contactsData)
-        setMeetings(meetingsData)
-      } catch (error) {
-        console.error('Failed to load form data:', error)
-      }
-    }
-
     if (isOpen) {
-      loadData()
+      setContacts(contactsData)
+      setMeetings(meetingsData)
     }
-  }, [isOpen, getContacts, getMeetings])
+  }, [isOpen, contactsData, meetingsData])
 
   useEffect(() => {
     if (isEditMode) {
@@ -353,7 +341,7 @@ const TaskForm: React.FC = () => {
           <Box sx={{ p: 2, height: 'calc(90vh - 200px)', overflow: 'auto' }}>
             <TabPanel value={tabValue} index={0}>
               <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <TextField
                     fullWidth
                     label="Task Title"
@@ -365,7 +353,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <TextField
                     fullWidth
                     label="Description"
@@ -378,7 +366,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <FormControl fullWidth>
                     <InputLabel>Priority</InputLabel>
                     <Select
@@ -427,7 +415,7 @@ const TaskForm: React.FC = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <FormControl fullWidth>
                     <InputLabel>Type</InputLabel>
                     <Select
@@ -478,7 +466,7 @@ const TaskForm: React.FC = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <DateTimePicker
                     label="Due Date"
                     value={formData.dueDate}
@@ -491,7 +479,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <DateTimePicker
                     label="Start Date"
                     value={formData.startDate}
@@ -508,7 +496,7 @@ const TaskForm: React.FC = () => {
 
             <TabPanel value={tabValue} index={1}>
               <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <TextField
                     fullWidth
                     label="Estimated Duration (minutes)"
@@ -525,7 +513,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <TextField
                     fullWidth
                     label="Location"
@@ -536,7 +524,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Autocomplete
                     options={contacts}
                     getOptionLabel={option =>
@@ -554,7 +542,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Autocomplete
                     freeSolo
                     options={categories}
@@ -568,7 +556,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Autocomplete
                     freeSolo
                     options={projects}
@@ -582,7 +570,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Autocomplete
                     options={meetings}
                     getOptionLabel={option => option.title}
@@ -598,7 +586,7 @@ const TaskForm: React.FC = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <Box>
                     <Typography variant="subtitle2" gutterBottom>
                       Tags
@@ -688,7 +676,7 @@ const TaskForm: React.FC = () => {
 
             <TabPanel value={tabValue} index={3}>
               <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <FormControlLabel
                     control={
                       <Switch
@@ -709,7 +697,7 @@ const TaskForm: React.FC = () => {
                   </Typography>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <Autocomplete
                     options={tasks.filter(t => t.id !== editingTaskId)}
                     getOptionLabel={option => option.title}

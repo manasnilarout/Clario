@@ -631,12 +631,11 @@ class MeetingsService {
       ...updates,
       updatedAt: new Date(),
       lastModifiedBy: this.contacts[0]?.id || 'user-1',
-    }
-
-    if (updates.attendees) {
-      updatedMeeting.attendees = this.contacts.filter(c =>
-        updates.attendees!.includes(c.id)
-      )
+      attendees: updates.attendees
+        ? updates.attendees
+            .map(id => this.contacts.find(c => c.id === id)!)
+            .filter(Boolean)
+        : currentMeeting.attendees,
     }
 
     if (updates.startTime && updates.endTime) {

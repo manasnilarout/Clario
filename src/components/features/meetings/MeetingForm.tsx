@@ -25,8 +25,8 @@ import {
   Divider,
   Alert,
   CircularProgress,
-  Grid,
 } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
   Close as CloseIcon,
   Add as AddIcon,
@@ -50,7 +50,6 @@ import {
   MeetingChecklistItem,
   MeetingTemplate,
 } from '../../../types/meeting'
-import { Contact } from '../../../types/contact'
 
 const steps = ['Basic Info', 'Attendees', 'Schedule', 'Options']
 
@@ -573,7 +572,7 @@ const MeetingForm: React.FC = () => {
           Location (Optional)
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
               label="Address or Room"
@@ -581,18 +580,17 @@ const MeetingForm: React.FC = () => {
                 formData.location?.address || formData.location?.room || ''
               }
               onChange={e => {
-                const location: MeetingLocation = {
-                  type: 'physical',
-                  ...(e.target.value.includes('http')
-                    ? { virtualUrl: e.target.value, type: 'virtual' as const }
-                    : { address: e.target.value }),
-                }
+                const location: MeetingLocation = e.target.value.includes(
+                  'http'
+                )
+                  ? { type: 'virtual' as const, virtualUrl: e.target.value }
+                  : { type: 'physical' as const, address: e.target.value }
                 handleInputChange('location', location)
               }}
               placeholder="Conference Room A or Virtual URL"
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <FormControl fullWidth>
               <InputLabel>Location Type</InputLabel>
               <Select
@@ -679,7 +677,7 @@ const MeetingForm: React.FC = () => {
           <Card key={`agenda-${index}`} sx={{ mb: 2 }}>
             <CardContent>
               <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     fullWidth
                     size="small"
@@ -690,7 +688,7 @@ const MeetingForm: React.FC = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid size={{ xs: 12, sm: 3 }}>
                   <TextField
                     fullWidth
                     size="small"
@@ -706,7 +704,7 @@ const MeetingForm: React.FC = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                <Grid size={{ xs: 12, sm: 2 }}>
                   <FormControl fullWidth size="small">
                     <InputLabel>Type</InputLabel>
                     <Select
@@ -724,7 +722,7 @@ const MeetingForm: React.FC = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={1}>
+                <Grid size={{ xs: 12, sm: 1 }}>
                   <IconButton
                     onClick={() => removeAgendaItem(index)}
                     size="small"
@@ -838,7 +836,7 @@ const MeetingForm: React.FC = () => {
           <Card key={`checklist-${index}`} sx={{ mb: 1 }}>
             <CardContent sx={{ py: 1.5 }}>
               <Grid container spacing={2} alignItems="center">
-                <Grid item xs={10}>
+                <Grid size={{ xs: 10 }}>
                   <TextField
                     fullWidth
                     size="small"
@@ -849,7 +847,7 @@ const MeetingForm: React.FC = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid size={{ xs: 2 }}>
                   <IconButton
                     onClick={() => removeChecklistItem(index)}
                     size="small"

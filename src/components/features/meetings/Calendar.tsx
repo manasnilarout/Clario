@@ -6,12 +6,12 @@ import {
   IconButton,
   Button,
   ButtonGroup,
-  Grid,
   Card,
   CardContent,
   Chip,
   useTheme,
   alpha,
+  Grid,
 } from '@mui/material'
 import {
   ChevronLeft as ChevronLeftIcon,
@@ -507,7 +507,7 @@ const Calendar: React.FC<CalendarProps> = ({
     return (
       <Grid container spacing={1}>
         {weekData.days.map((day, index) => (
-          <Grid item xs key={index}>
+          <Grid size={1} key={index}>
             <Card
               variant="outlined"
               sx={{
@@ -594,7 +594,7 @@ const Calendar: React.FC<CalendarProps> = ({
         </Typography>
 
         <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Paper sx={{ p: 2, minHeight: 500 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>
                 Meetings ({dayData.meetings.length})
@@ -698,7 +698,7 @@ const Calendar: React.FC<CalendarProps> = ({
             </Paper>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Paper sx={{ p: 2 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>
                 Quick Actions

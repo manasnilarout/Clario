@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Paper,
-  Grid,
   Card,
   CardContent,
   CardHeader,
@@ -24,6 +23,7 @@ import {
   useTheme,
   alpha,
 } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
   TrendingUp as TrendingUpIcon,
   TrendingDown as TrendingDownIcon,
@@ -425,7 +425,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
   // Render overview section
   const renderOverview = () => (
     <Grid container spacing={3}>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         {renderMetricCard(
           'Total Tasks',
           analyticsData.productivity.totalTasks,
@@ -434,7 +434,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
           'primary.main'
         )}
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         {renderMetricCard(
           'Completed',
           analyticsData.productivity.completedTasks,
@@ -444,7 +444,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
           'up'
         )}
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         {renderMetricCard(
           'Overdue',
           analyticsData.productivity.overdueTasks,
@@ -454,7 +454,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
           analyticsData.productivity.overdueTasks > 0 ? 'down' : 'neutral'
         )}
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         {renderMetricCard(
           'Productivity Score',
           `${analyticsData.productivity.productivityScore.toFixed(0)}%`,
@@ -465,7 +465,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
       </Grid>
 
       {/* Charts */}
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Card>
           <CardHeader title="Tasks by Status" />
           <CardContent>
@@ -499,7 +499,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
         </Card>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Card>
           <CardHeader title="Tasks by Priority" />
           <CardContent>
@@ -527,7 +527,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
   // Render trends section
   const renderTrends = () => (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Card>
           <CardHeader title="Task Creation vs Completion Trends" />
           <CardContent>
@@ -565,7 +565,7 @@ export const TaskAnalytics: React.FC<TaskAnalyticsProps> = ({
   // Render team performance section
   const renderTeamPerformance = () => (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Card>
           <CardHeader title="Team Performance" />
           <CardContent>

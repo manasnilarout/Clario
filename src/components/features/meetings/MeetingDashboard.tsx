@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import {
   Box,
-  Grid,
   Card,
   CardContent,
   CardHeader,
@@ -20,6 +19,8 @@ import {
   Tooltip,
   Badge,
 } from '@mui/material'
+import { Grid } from '@mui/material'
+
 import {
   Schedule as ScheduleIcon,
   Group as GroupIcon,
@@ -127,7 +128,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
     if (!showTeamAvailability) return []
 
     const topContacts = contacts
-      .sort((a, b) => b.interactionCount - a.interactionCount)
+      .sort((a, b) => (b.interactionCount || 0) - (a.interactionCount || 0))
       .slice(0, 8)
 
     return topContacts.map(contact => {
@@ -280,7 +281,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
 
       {/* Stats Cards */}
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -300,7 +301,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -320,7 +321,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -340,7 +341,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -363,7 +364,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
 
       <Grid container spacing={3}>
         {/* Today's Meetings */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardHeader
               title="Today's Meetings"
@@ -389,7 +390,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
                   {todaysMeetings.map((meeting, index) => (
                     <ListItem
                       key={meeting.id}
-                      button
+                      component="button"
                       onClick={() => onMeetingClick?.(meeting)}
                       divider={index < todaysMeetings.length - 1}
                     >
@@ -444,7 +445,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
         </Grid>
 
         {/* Upcoming Meetings */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardHeader
               title="Upcoming Meetings"
@@ -470,7 +471,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
                   {upcomingMeetings.map((meeting, index) => (
                     <ListItem
                       key={meeting.id}
-                      button
+                      component="button"
                       onClick={() => onMeetingClick?.(meeting)}
                       divider={index < upcomingMeetings.length - 1}
                     >
@@ -512,7 +513,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
 
         {/* Action Items */}
         {showActionItems && (
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Card>
               <CardHeader
                 title="Overdue Action Items"
@@ -582,7 +583,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
 
         {/* Team Availability */}
         {showTeamAvailability && (
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Card>
               <CardHeader
                 title="Team Availability"
@@ -635,7 +636,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
           <CardHeader title="Meeting Insights" />
           <CardContent>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h6" color="primary">
                     {stats.productivityScore}%
@@ -651,7 +652,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
                 </Box>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h6">{stats.meetingsThisWeek}</Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -660,7 +661,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
                 </Box>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h6">
                     {Math.round(stats.averageAttendeesPerMeeting)}
@@ -671,7 +672,7 @@ const MeetingDashboard: React.FC<MeetingDashboardProps> = ({
                 </Box>
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h6">
                     {Math.round(stats.totalMeetingTime / 60)} hrs

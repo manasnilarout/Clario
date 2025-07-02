@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {
   Box,
   Typography,
-  Grid,
   Card,
   CardContent,
   ButtonGroup,
@@ -25,6 +24,7 @@ import {
   AvatarGroup,
   alpha,
 } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
   ViewModule as ViewModuleIcon,
   ViewList as ViewListIcon,
@@ -50,8 +50,8 @@ interface MeetingsListProps {
 const MeetingsList: React.FC<MeetingsListProps> = ({
   onMeetingClick,
   onCreateMeeting,
-  _showFilters = true,
-  _showSearch = true,
+  showFilters = true,
+  showSearch = true,
   showPagination = true,
   itemsPerPage = 12,
 }) => {
@@ -202,7 +202,7 @@ const MeetingsList: React.FC<MeetingsListProps> = ({
   const renderGridView = () => (
     <Grid container spacing={2}>
       {currentMeetings.map(meeting => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={meeting.id}>
+        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={meeting.id}>
           <MeetingCard
             meeting={meeting}
             isSelected={selectedMeetings.includes(meeting.id)}
@@ -561,8 +561,11 @@ const MeetingsList: React.FC<MeetingsListProps> = ({
         <EmptyState
           title="No meetings found"
           description="Start by creating your first meeting or adjust your filters."
-          actionLabel="Create Meeting"
-          onAction={onCreateMeeting}
+          action={{
+            label: 'Create Meeting',
+            onClick: onCreateMeeting || (() => {}),
+            variant: 'primary',
+          }}
         />
       ) : (
         <Box>

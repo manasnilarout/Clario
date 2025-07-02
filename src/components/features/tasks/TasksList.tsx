@@ -2,7 +2,6 @@ import React from 'react'
 import {
   Box,
   Typography,
-  Grid,
   ToggleButtonGroup,
   ToggleButton,
   Table,
@@ -27,20 +26,14 @@ import {
   Toolbar,
   alpha,
 } from '@mui/material'
+import { Grid } from '@mui/material'
 import {
   GridView as GridViewIcon,
   ViewList as ViewListIcon,
-  TableChart as TableChartIcon,
-  ViewAgenda as ViewAgendaIcon,
   Add as AddIcon,
-  FilterList as FilterListIcon,
   MoreVert as MoreVertIcon,
-  Person as PersonIcon,
   CalendarToday as CalendarIcon,
-  Flag as FlagIcon,
-  CheckBox as CheckBoxIcon,
   Assignment as TaskIcon,
-  Group as GroupIcon,
   Schedule as ScheduleIcon,
 } from '@mui/icons-material'
 import { Task, TaskViewMode, TaskSortOption } from '../../../types/task'
@@ -86,7 +79,7 @@ const TasksList: React.FC<TasksListProps> = ({
     setShowCompletedTasks,
   } = useTasksStore()
 
-  const { getContact } = useContactsStore()
+  const { getContactById } = useContactsStore()
 
   const [currentPage, setCurrentPage] = React.useState(1)
   const [itemsPerPage, setItemsPerPage] = React.useState(20)
@@ -186,11 +179,11 @@ const TasksList: React.FC<TasksListProps> = ({
           icon={<TaskIcon sx={{ fontSize: 64, color: 'text.secondary' }} />}
           title="No tasks found"
           description={`No tasks match your search for "${searchQuery}"`}
-          action={
-            <Button variant="outlined" onClick={() => window.location.reload()}>
-              Clear Search
-            </Button>
-          }
+          action={{
+            label: 'Clear Search',
+            onClick: () => window.location.reload(),
+            variant: 'secondary',
+          }}
         />
       )
     }
@@ -200,15 +193,11 @@ const TasksList: React.FC<TasksListProps> = ({
         icon={<TaskIcon sx={{ fontSize: 64, color: 'text.secondary' }} />}
         title="No tasks yet"
         description="Get started by creating your first task"
-        action={
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => startCreating()}
-          >
-            Create Task
-          </Button>
-        }
+        action={{
+          label: 'Create Task',
+          onClick: () => startCreating(),
+          variant: 'primary',
+        }}
       />
     )
   }
@@ -352,7 +341,7 @@ const TasksList: React.FC<TasksListProps> = ({
           {/* Card Grid View */}
           <Grid container spacing={2}>
             {paginatedTasks.map(task => (
-              <Grid item xs={12} key={task.id}>
+              <Grid size={{ xs: 12 }} key={task.id}>
                 <TaskCard
                   task={task}
                   variant={variant === 'compact' ? 'compact' : 'default'}
@@ -368,7 +357,7 @@ const TasksList: React.FC<TasksListProps> = ({
         </>
       )}
 
-      {viewMode === 'table' && (
+      {viewMode === 'list' && (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -443,7 +432,7 @@ const TasksList: React.FC<TasksListProps> = ({
             <TableBody>
               {paginatedTasks.map(task => {
                 const assignedContact = task.assignedTo
-                  ? getContact(task.assignedTo)
+                  ? getContactById(task.assignedTo)
                   : null
                 const isTaskOverdue = isOverdue(task)
 

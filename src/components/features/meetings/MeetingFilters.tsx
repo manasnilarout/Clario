@@ -11,7 +11,6 @@ import {
   Chip,
   Autocomplete,
   Button,
-  Grid,
   FormControlLabel,
   Switch,
   Collapse,
@@ -21,6 +20,8 @@ import {
   DialogActions,
   Badge,
 } from '@mui/material'
+import { Grid } from '@mui/material'
+
 import {
   Search as SearchIcon,
   FilterList as FilterListIcon,
@@ -106,9 +107,6 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
   const [showSaveDialog, setShowSaveDialog] = useState(false)
   const [presetName, setPresetName] = useState('')
   const [presetDescription, setPresetDescription] = useState('')
-  const [presetMenuAnchor, setPresetMenuAnchor] = useState<null | HTMLElement>(
-    null
-  )
   const [selectedPreset, setSelectedPreset] = useState<FilterPreset | null>(
     null
   )
@@ -120,23 +118,6 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       meeting.tags.forEach(tag => tags.add(tag))
     })
     return Array.from(tags).sort()
-  }, [meetings])
-
-  const uniqueLocations = React.useMemo(() => {
-    const locations = new Set<string>()
-    meetings.forEach(meeting => {
-      if (meeting.location?.address) locations.add(meeting.location.address)
-      if (meeting.location?.room) locations.add(meeting.location.room)
-    })
-    return Array.from(locations).sort()
-  }, [meetings])
-
-  const uniqueOrganizers = React.useMemo(() => {
-    const organizers = new Set<string>()
-    meetings.forEach(meeting => {
-      if (meeting.organizer) organizers.add(meeting.organizer)
-    })
-    return Array.from(organizers).sort()
   }, [meetings])
 
   // Load filter presets
@@ -244,11 +225,6 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
     )
   }
 
-  const handleDeletePreset = (presetId: string) => {
-    setFilterPresets(prev => prev.filter(p => p.id !== presetId))
-    setPresetMenuAnchor(null)
-  }
-
   const getActiveFilterCount = () => {
     let count = 0
     if (currentFilter.searchQuery) count++
@@ -339,7 +315,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
   const renderDetailedFilters = () => (
     <Grid container spacing={2}>
       {/* Attendees */}
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <Autocomplete
           multiple
           options={contacts}
@@ -370,7 +346,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       </Grid>
 
       {/* Meeting Types */}
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <FormControl fullWidth size="small">
           <InputLabel>Meeting Types</InputLabel>
           <Select
@@ -399,7 +375,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       </Grid>
 
       {/* Status */}
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <FormControl fullWidth size="small">
           <InputLabel>Status</InputLabel>
           <Select
@@ -428,7 +404,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       </Grid>
 
       {/* Priority */}
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <FormControl fullWidth size="small">
           <InputLabel>Priority</InputLabel>
           <Select
@@ -459,7 +435,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       </Grid>
 
       {/* Tags */}
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <Autocomplete
           multiple
           options={uniqueTags}
@@ -482,7 +458,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       </Grid>
 
       {/* Date Range */}
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label="Start Date"
@@ -503,7 +479,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
         </LocalizationProvider>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label="End Date"
@@ -525,7 +501,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       </Grid>
 
       {/* Boolean Filters */}
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
           <FormControlLabel
             control={
@@ -564,7 +540,7 @@ const MeetingFilters: React.FC<MeetingFiltersProps> = ({
       </Grid>
 
       {/* Action Buttons */}
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
           <Button
             startIcon={<SaveIcon />}
