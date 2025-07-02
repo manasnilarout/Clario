@@ -2,6 +2,7 @@
 
 export * from './contact'
 export * from './meeting'
+export * from './task'
 
 export interface User {
   id: string
@@ -122,21 +123,6 @@ export interface ChecklistItem {
   title: string
   completed: boolean
   category: 'documents' | 'packing' | 'bookings' | 'other'
-}
-
-export interface Task {
-  id: string
-  title: string
-  description?: string
-  status: 'todo' | 'in-progress' | 'review' | 'done'
-  priority: 'low' | 'medium' | 'high'
-  dueDate?: Date
-  assignee?: string
-  tags: string[]
-  relatedItems?: RelatedItem[]
-  createdBy: string
-  createdAt: Date
-  updatedAt: Date
 }
 
 export interface RelatedItem {
@@ -267,14 +253,6 @@ export interface MeetingFilters {
   }
   type?: ('in-person' | 'virtual' | 'phone')[]
   status?: ('scheduled' | 'in-progress' | 'completed' | 'cancelled')[]
-}
-
-export interface TaskFilters {
-  search?: string
-  status?: ('todo' | 'in-progress' | 'review' | 'done')[]
-  priority?: ('low' | 'medium' | 'high')[]
-  assignee?: string[]
-  tags?: string[]
 }
 
 // Chart and analytics types

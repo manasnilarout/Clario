@@ -31,11 +31,13 @@ import {
   Person as PersonIcon,
   AccessTime as AccessTimeIcon,
   EventNote as EventNoteIcon,
+  Assignment as TaskIcon,
 } from '@mui/icons-material'
 import { Meeting } from '../../../types/meeting'
 import { useMeetingsStore } from '../../../store/meetingsStore'
 import { format } from 'date-fns'
 import { useTheme } from '@mui/material/styles'
+import { ActionItemsManager } from './ActionItemsManager'
 
 interface MeetingCardProps {
   meeting: Meeting
@@ -67,6 +69,7 @@ const MeetingCard: React.FC<MeetingCardProps> = ({
   } = useMeetingsStore()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [actionItemsOpen, setActionItemsOpen] = useState(false)
   const open = Boolean(anchorEl)
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -131,6 +134,11 @@ const MeetingCard: React.FC<MeetingCardProps> = ({
     } catch (error) {
       console.error('Failed to cancel meeting:', error)
     }
+    handleMenuClose()
+  }
+
+  const handleActionItems = () => {
+    setActionItemsOpen(true)
     handleMenuClose()
   }
 
@@ -553,6 +561,13 @@ const MeetingCard: React.FC<MeetingCardProps> = ({
             <ListItemText>Edit Meeting</ListItemText>
           </MenuItem>
 
+          <MenuItem onClick={handleActionItems}>
+            <ListItemIcon>
+              <TaskIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Action Items</ListItemText>
+          </MenuItem>
+
           {canStart && (
             <MenuItem onClick={handleStartMeeting}>
               <ListItemIcon>
@@ -588,6 +603,17 @@ const MeetingCard: React.FC<MeetingCardProps> = ({
           </MenuItem>
         </Menu>
       </Card>
+
+      {/* Action Items Manager */}
+      <ActionItemsManager
+        meeting={meeting}
+        open={actionItemsOpen}
+        onClose={() => setActionItemsOpen(false)}
+        onActionItemsCreated={tasks => {
+          console.log('Action items created as tasks:', tasks)
+          // You can add additional logic here, such as showing a success message
+        }}
+      />
     </Fade>
   )
 }

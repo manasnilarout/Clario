@@ -26,9 +26,13 @@ import {
   Delete as DeleteIcon,
   Visibility as VisibilityIcon,
   LocationOn as LocationIcon,
+  Assignment as TaskIcon,
+  CheckCircle as CompletedIcon,
+  Schedule as PendingIcon,
 } from '@mui/icons-material'
 import { Contact } from '../../../types/contact'
 import { useContactsStore } from '../../../store/contactsStore'
+import { useTasksStore } from '../../../store/tasksStore'
 
 interface ContactCardProps {
   contact: Contact
@@ -48,8 +52,21 @@ const ContactCard: React.FC<ContactCardProps> = ({
   showCheckbox = false,
 }) => {
   const { toggleFavorite, setEditing, deleteContact } = useContactsStore()
+  const { getTasksByAssignee } = useTasksStore()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [isHovered, setIsHovered] = React.useState(false)
+
+  // Get tasks assigned to this contact
+  const assignedTasks = getTasksByAssignee(contact.id)
+  const completedTasks = assignedTasks.filter(
+    task => task.status === 'completed'
+  )
+  const pendingTasks = assignedTasks.filter(
+    task => task.status !== 'completed' && task.status !== 'cancelled'
+  )
+  const overdueTasks = pendingTasks.filter(
+    task => task.dueDate && task.dueDate < new Date()
+  )
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation()
@@ -262,6 +279,68 @@ const ContactCard: React.FC<ContactCardProps> = ({
                 {contact.address.city}
                 {contact.address.state && `, ${contact.address.state}`}
               </Typography>
+            </Box>
+          )}
+
+          {/* Task Assignment Info */}
+          {assignedTasks.length > 0 && (
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+              <TaskIcon sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  flex: 1,
+                }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  {assignedTasks.length} task
+                  {assignedTasks.length !== 1 ? 's' : ''}
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 0.25 }}>
+                  {completedTasks.length > 0 && (
+                    <Tooltip title={`${completedTasks.length} completed`}>
+                      <Chip
+                        icon={<CompletedIcon />}
+                        label={completedTasks.length}
+                        size="small"
+                        color="success"
+                        sx={{
+                          height: '16px',
+                          fontSize: '10px',
+                          '& .MuiChip-icon': { fontSize: '10px' },
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                  {pendingTasks.length > 0 && (
+                    <Tooltip title={`${pendingTasks.length} pending`}>
+                      <Chip
+                        icon={<PendingIcon />}
+                        label={pendingTasks.length}
+                        size="small"
+                        color="primary"
+                        sx={{
+                          height: '16px',
+                          fontSize: '10px',
+                          '& .MuiChip-icon': { fontSize: '10px' },
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                  {overdueTasks.length > 0 && (
+                    <Tooltip title={`${overdueTasks.length} overdue`}>
+                      <Chip
+                        label={overdueTasks.length}
+                        size="small"
+                        color="error"
+                        sx={{ height: '16px', fontSize: '10px' }}
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+              </Box>
             </Box>
           )}
         </Box>

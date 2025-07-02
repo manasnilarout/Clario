@@ -1,1 +1,7 @@
-// TODO: Export components when they are created
+export { default as TaskCard } from './TaskCard'
+export { default as TasksList } from './TasksList'
+export { default as TaskForm } from './TaskForm'
+export { default as KanbanBoard } from './KanbanBoard'
+export { default as TaskCalendar } from './TaskCalendar'
+export { default as TaskTimeline } from './TaskTimeline'
+export { default as TaskAnalytics } from './TaskAnalytics'
