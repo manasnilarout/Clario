@@ -150,10 +150,11 @@ const MeetingLinker: React.FC<MeetingLinkerProps> = ({ trip, onUpdate }) => {
     let score = 0
 
     // Location match
+    const locationText = meeting.location?.address || ''
     const hasLocationMatch = trip.destinations.some(
       dest =>
-        meeting.location?.toLowerCase().includes(dest.city.toLowerCase()) ||
-        meeting.location?.toLowerCase().includes(dest.country.toLowerCase())
+        locationText.toLowerCase().includes(dest.city.toLowerCase()) ||
+        locationText.toLowerCase().includes(dest.country.toLowerCase())
     )
     if (hasLocationMatch) score += 3
 
@@ -420,7 +421,7 @@ const MeetingLinker: React.FC<MeetingLinkerProps> = ({ trip, onUpdate }) => {
 
           <Box mt={2} mb={2}>
             <Grid container spacing={2}>
-              <Grid item xs={4}>
+              <Grid size={{ xs: 4 }}>
                 <Paper sx={{ p: 1, textAlign: 'center' }}>
                   <Typography variant="h4" color="primary">
                     {trip.destinations.length}
@@ -428,7 +429,7 @@ const MeetingLinker: React.FC<MeetingLinkerProps> = ({ trip, onUpdate }) => {
                   <Typography variant="caption">Destinations</Typography>
                 </Paper>
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={{ xs: 4 }}>
                 <Paper sx={{ p: 1, textAlign: 'center' }}>
                   <Typography variant="h4" color="primary">
                     {trip.duration}
@@ -436,7 +437,7 @@ const MeetingLinker: React.FC<MeetingLinkerProps> = ({ trip, onUpdate }) => {
                   <Typography variant="caption">Days</Typography>
                 </Paper>
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={{ xs: 4 }}>
                 <Paper sx={{ p: 1, textAlign: 'center' }}>
                   <Typography variant="h4" color="primary">
                     {availableMeetings.length}

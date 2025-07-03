@@ -307,7 +307,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
   const renderBasicInfoStep = () => (
     <Box sx={{ mt: 2 }}>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <TextField
             fullWidth
             label="Trip Title"
@@ -318,7 +318,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
             placeholder="e.g., Q1 Business Review - London"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <TextField
             fullWidth
             multiline
@@ -331,7 +331,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
             placeholder="Brief description of the trip purpose and goals..."
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <FormControl fullWidth>
             <InputLabel>Trip Purpose</InputLabel>
             <Select
@@ -350,7 +350,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <FormControl fullWidth>
             <InputLabel>Primary Timezone</InputLabel>
             <Select
@@ -369,7 +369,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <DatePicker
             label="Start Date"
             value={stepData.basicInfo.startDate}
@@ -377,7 +377,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
             slotProps={{ textField: { fullWidth: true } }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <DatePicker
             label="End Date"
             value={stepData.basicInfo.endDate}
@@ -386,7 +386,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
           />
         </Grid>
         {calculateTripDuration() > 0 && (
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">
               Trip duration: {calculateTripDuration()} day
               {calculateTripDuration() !== 1 ? 's' : ''}
@@ -531,7 +531,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             fullWidth
             label="Total Budget"
@@ -549,7 +549,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <FormControl fullWidth>
             <InputLabel>Currency</InputLabel>
             <Select
@@ -567,7 +567,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
           </FormControl>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Typography variant="subtitle1" gutterBottom>
             Budget Breakdown
           </Typography>
@@ -575,7 +575,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
 
         {Object.entries(stepData.budget.breakdown || {}).map(
           ([category, amount]) => (
-            <Grid item xs={12} md={6} key={category}>
+            <Grid size={{ xs: 12, md: 6 }} key={category}>
               <TextField
                 fullWidth
                 label={category.charAt(0).toUpperCase() + category.slice(1)}
@@ -623,7 +623,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Autocomplete
             multiple
             options={contacts}
@@ -656,7 +656,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Autocomplete
             multiple
             options={meetings}
@@ -699,7 +699,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent>
               <Typography variant="subtitle1" gutterBottom>
@@ -723,7 +723,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent>
               <Typography variant="subtitle1" gutterBottom>
@@ -738,7 +738,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent>
               <Typography variant="subtitle1" gutterBottom>
@@ -762,7 +762,7 @@ export const TripPlanner: React.FC<TripPlannerProps> = ({
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent>
               <Typography variant="subtitle1" gutterBottom>
@@ -943,7 +943,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({
       <DialogContent>
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Autocomplete
                 options={popularDestinations}
                 getOptionLabel={option => `${option.city}, ${option.country}`}
@@ -978,7 +978,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({
                 )}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 fullWidth
                 label="Country"
@@ -988,7 +988,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({
                 }
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <DatePicker
                 label="Arrival Date"
                 value={destination.arrivalDate}
@@ -1001,7 +1001,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({
                 slotProps={{ textField: { fullWidth: true } }}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <DatePicker
                 label="Departure Date"
                 value={destination.departureDate}
@@ -1014,7 +1014,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({
                 slotProps={{ textField: { fullWidth: true } }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField
                 fullWidth
                 label="Purpose of Visit"
@@ -1025,7 +1025,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({
                 placeholder="e.g., Client meetings, Conference attendance..."
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField
                 fullWidth
                 multiline

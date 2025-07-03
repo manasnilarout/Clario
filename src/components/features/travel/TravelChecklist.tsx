@@ -296,7 +296,7 @@ export const TravelChecklist: React.FC<TravelChecklistProps> = ({ tripId }) => {
           </Box>
 
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <Box sx={{ textAlign: 'center' }}>
                 <Typography variant="h6" color="error.main">
                   {overdue.length}
@@ -306,7 +306,7 @@ export const TravelChecklist: React.FC<TravelChecklistProps> = ({ tripId }) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <Box sx={{ textAlign: 'center' }}>
                 <Typography variant="h6" color="warning.main">
                   {upcoming.length}
@@ -326,7 +326,7 @@ export const TravelChecklist: React.FC<TravelChecklistProps> = ({ tripId }) => {
     <Card sx={{ mb: 2 }}>
       <CardContent>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <FormControl fullWidth size="small">
               <InputLabel>Category</InputLabel>
               <Select
@@ -346,7 +346,7 @@ export const TravelChecklist: React.FC<TravelChecklistProps> = ({ tripId }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <FormControl fullWidth size="small">
               <InputLabel>Status</InputLabel>
               <Select
@@ -359,7 +359,7 @@ export const TravelChecklist: React.FC<TravelChecklistProps> = ({ tripId }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <FormControl fullWidth size="small">
               <InputLabel>Sort By</InputLabel>
               <Select
@@ -610,7 +610,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
         description: formData.description.trim(),
         category: formData.category,
         priority: formData.priority,
-        dueDate: formData.dueDate,
+        dueDate: formData.dueDate || undefined,
         notes: formData.notes.trim(),
       })
     }
@@ -624,7 +624,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
       <DialogContent>
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField
                 fullWidth
                 label="Title"
@@ -635,7 +635,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
                 placeholder="e.g., Check passport validity"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField
                 fullWidth
                 multiline
@@ -648,7 +648,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
                 placeholder="Additional details about this task..."
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <FormControl fullWidth>
                 <InputLabel>Category</InputLabel>
                 <Select
@@ -669,7 +669,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <FormControl fullWidth>
                 <InputLabel>Priority</InputLabel>
                 <Select
@@ -687,7 +687,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <DatePicker
                 label="Due Date (Optional)"
                 value={formData.dueDate}
@@ -695,7 +695,7 @@ const ChecklistItemDialog: React.FC<ChecklistItemDialogProps> = ({
                 slotProps={{ textField: { fullWidth: true } }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField
                 fullWidth
                 multiline
