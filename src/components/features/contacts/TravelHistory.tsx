@@ -173,7 +173,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
 
           {relationshipMetrics && (
             <Grid container spacing={3} sx={{ mt: 1 }}>
-              <Grid item xs={12} md={3}>
+              <Grid size={{ xs: 12, md: 3 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <Typography
                     variant="h4"
@@ -199,7 +199,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
                 </Paper>
               </Grid>
 
-              <Grid item xs={12} md={3}>
+              <Grid size={{ xs: 12, md: 3 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <Box
                     display="flex"
@@ -219,7 +219,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
                 </Paper>
               </Grid>
 
-              <Grid item xs={12} md={3}>
+              <Grid size={{ xs: 12, md: 3 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <Typography variant="h4" color="primary">
                     {travelHistory.length}
@@ -228,7 +228,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
                 </Paper>
               </Grid>
 
-              <Grid item xs={12} md={3}>
+              <Grid size={{ xs: 12, md: 3 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <Typography variant="h6" color="text.secondary">
                     {formatDistanceToNow(relationshipMetrics.lastInteraction)}{' '}
@@ -243,7 +243,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
       </Card>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           {/* Travel History Timeline */}
           <Card>
             <CardContent>
@@ -338,7 +338,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
             )}
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           {/* Travel Patterns */}
           {travelPatterns && (
             <Card>
@@ -433,7 +433,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Grid container spacing={2}>
-                      <Grid item xs={6}>
+                      <Grid size={{ xs: 6 }}>
                         <Box textAlign="center">
                           <Typography variant="h4" color="primary">
                             {travelHistory.reduce(
@@ -446,7 +446,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
                           </Typography>
                         </Box>
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid size={{ xs: 6 }}>
                         <Box textAlign="center">
                           <Typography variant="h4" color="success.main">
                             {
@@ -460,7 +460,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
                           </Typography>
                         </Box>
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid size={{ xs: 6 }}>
                         <Box textAlign="center">
                           <Typography variant="h4" color="warning.main">
                             {
@@ -473,7 +473,7 @@ const TravelHistoryComponent: React.FC<TravelHistoryProps> = ({ contact }) => {
                           </Typography>
                         </Box>
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid size={{ xs: 6 }}>
                         <Box textAlign="center">
                           <Typography variant="h4" color="primary">
                             {travelPatterns.frequentDestinations.length}

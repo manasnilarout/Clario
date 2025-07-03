@@ -1,5 +1,5 @@
 import type { Trip, Destination, TravelOptimization } from '../types/travel'
-import { TripPurpose } from '../types/travel'
+import { TripPurpose, TripStatus } from '../types/travel'
 import type { Meeting } from '../types/meeting'
 import type { Task, CreateTaskData } from '../types/task'
 import { meetingsService } from './meetingsService'
@@ -71,10 +71,16 @@ class TravelMeetingIntegrationService implements TravelMeetingIntegration {
       purpose,
       startDate: travelWindow.startDate,
       endDate: travelWindow.endDate,
+      duration: Math.ceil(
+        (travelWindow.endDate.getTime() - travelWindow.startDate.getTime()) /
+          (1000 * 60 * 60 * 24)
+      ),
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       destinations,
       relatedMeetings: meetingIds,
       relatedContacts: this.extractContactIds(selectedMeetings),
-      status: 'planning' as const,
+      relatedTasks: [],
+      status: TripStatus.PLANNING,
       checklist: [],
       travelers: [
         {
@@ -88,6 +94,9 @@ class TravelMeetingIntegrationService implements TravelMeetingIntegration {
       transportation: [],
       accommodation: [],
       budget: this.estimateTripBudget(clusters, travelWindow),
+      visibility: 'private' as const,
+      createdBy: 'user-1',
+      isArchived: false,
     }
 
     const trip = await travelService.createTrip(tripData)
@@ -121,10 +130,12 @@ class TravelMeetingIntegrationService implements TravelMeetingIntegration {
       const meetingDate = new Date(meeting.startTime)
       if (meetingDate >= trip.startDate && meetingDate <= trip.endDate) {
         // Check if meeting location matches any destination
+        const locationString =
+          meeting.location?.address || meeting.location?.room || ''
         const matchesDestination = trip.destinations.some(
           dest =>
-            meeting.location?.toLowerCase().includes(dest.city.toLowerCase()) ||
-            meeting.location?.toLowerCase().includes(dest.country.toLowerCase())
+            locationString.toLowerCase().includes(dest.city.toLowerCase()) ||
+            locationString.toLowerCase().includes(dest.country.toLowerCase())
         )
 
         if (matchesDestination || !meeting.location) {
@@ -263,10 +274,12 @@ class TravelMeetingIntegrationService implements TravelMeetingIntegration {
       if (!meeting.location) continue
 
       // Simple location extraction - in a real implementation, you'd use geocoding
-      const locationKey = this.extractLocationKey(meeting.location)
+      const locationString =
+        meeting.location.address || meeting.location.room || 'Unknown'
+      const locationKey = this.extractLocationKey(locationString)
 
       if (!clusters.has(locationKey)) {
-        const { city, country } = this.parseLocation(meeting.location)
+        const { city, country } = this.parseLocation(locationString)
         clusters.set(locationKey, {
           city,
           country,

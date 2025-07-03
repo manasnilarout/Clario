@@ -270,7 +270,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
       {selectedDestinationData && (
         <Grid container spacing={3}>
           {/* Contact Suggestions */}
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Card>
               <CardContent>
                 <Box display="flex" alignItems="center" gap={1} mb={2}>
@@ -415,10 +415,12 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                               {contact.firstName} {contact.lastName}
                             </Typography>
                             <Chip
-                              label={contact.importance}
+                              label={contact.priority}
                               size="small"
                               color={
-                                getImportanceColor(contact.importance) as any
+                                getImportanceColor(
+                                  contact.priority || 'medium'
+                                ) as any
                               }
                               variant="outlined"
                             />
@@ -429,13 +431,14 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                             <Typography variant="body2" color="text.secondary">
                               {contact.company} • {contact.position}
                             </Typography>
-                            {contact.lastContact && (
+                            {contact.lastContactedAt && (
                               <Typography
                                 variant="caption"
                                 color="text.secondary"
                               >
                                 Last contact:{' '}
-                                {formatDistanceToNow(contact.lastContact)} ago
+                                {formatDistanceToNow(contact.lastContactedAt)}{' '}
+                                ago
                               </Typography>
                             )}
                           </Box>
@@ -467,7 +470,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
           </Grid>
 
           {/* Destination Insights */}
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ mb: 2 }}>
               <CardContent>
                 <Box display="flex" alignItems="center" gap={1} mb={2}>
@@ -552,7 +555,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                 Quick Stats
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Box textAlign="center">
                     <Typography variant="h4" color="primary">
                       {selectedDestinationData.contacts.length}
@@ -560,7 +563,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                     <Typography variant="caption">Local Contacts</Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Box textAlign="center">
                     <Typography variant="h4" color="primary">
                       {selectedDestinationData.suggestions.length}
@@ -570,19 +573,19 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Box textAlign="center">
                     <Typography variant="h4" color="primary">
                       {
                         selectedDestinationData.contacts.filter(
-                          c => c.importance === 'high'
+                          c => c.priority === 'high'
                         ).length
                       }
                     </Typography>
                     <Typography variant="caption">High Priority</Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Box textAlign="center">
                     <Typography variant="h4" color="primary">
                       {
@@ -624,10 +627,12 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                     {selectedContact.company} • {selectedContact.position}
                   </Typography>
                   <Chip
-                    label={selectedContact.importance}
+                    label={selectedContact.priority}
                     size="small"
                     color={
-                      getImportanceColor(selectedContact.importance) as any
+                      getImportanceColor(
+                        selectedContact.priority || 'medium'
+                      ) as any
                     }
                     variant="outlined"
                   />
@@ -637,7 +642,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
               <Divider sx={{ my: 2 }} />
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <Typography variant="subtitle2" gutterBottom>
                     Contact Information
                   </Typography>
@@ -650,7 +655,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                 </Grid>
 
                 {selectedContact.tags.length > 0 && (
-                  <Grid item xs={12}>
+                  <Grid size={{ xs: 12 }}>
                     <Typography variant="subtitle2" gutterBottom>
                       Tags
                     </Typography>
@@ -668,7 +673,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                 )}
 
                 {selectedContact.notes && (
-                  <Grid item xs={12}>
+                  <Grid size={{ xs: 12 }}>
                     <Typography variant="subtitle2" gutterBottom>
                       Notes
                     </Typography>
@@ -678,14 +683,15 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                   </Grid>
                 )}
 
-                {selectedContact.lastContact && (
-                  <Grid item xs={12}>
+                {selectedContact.lastContactedAt && (
+                  <Grid size={{ xs: 12 }}>
                     <Typography variant="subtitle2" gutterBottom>
                       Last Contact
                     </Typography>
                     <Typography variant="body2">
-                      {format(selectedContact.lastContact, 'MMM dd, yyyy')}(
-                      {formatDistanceToNow(selectedContact.lastContact)} ago)
+                      {format(selectedContact.lastContactedAt, 'MMM dd, yyyy')}{' '}
+                      ({formatDistanceToNow(selectedContact.lastContactedAt)}{' '}
+                      ago)
                     </Typography>
                   </Grid>
                 )}
@@ -721,7 +727,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Typography variant="subtitle2">Meeting Type</Typography>
                   <Chip
                     label={selectedSuggestion.meetingType}
@@ -731,7 +737,7 @@ const LocalContacts: React.FC<LocalContactsProps> = ({
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={{ xs: 6 }}>
                   <Typography variant="subtitle2">Duration</Typography>
                   <Typography variant="body2">
                     {selectedSuggestion.suggestedDuration} minutes

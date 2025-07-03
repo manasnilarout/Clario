@@ -78,10 +78,11 @@ const TravelSuggestions: React.FC<TravelSuggestionsProps> = ({
 
       // Filter out local meetings if showOnlyOutOfTown is true
       if (showOnlyOutOfTown) {
+        const locationText = meeting.location?.address || ''
         const isLocal =
-          meeting.location.toLowerCase().includes('office') ||
-          meeting.location.toLowerCase().includes('local') ||
-          meeting.location.toLowerCase().includes('headquarters')
+          locationText.toLowerCase().includes('office') ||
+          locationText.toLowerCase().includes('local') ||
+          locationText.toLowerCase().includes('headquarters')
         if (isLocal) return false
       }
 
@@ -93,7 +94,7 @@ const TravelSuggestions: React.FC<TravelSuggestionsProps> = ({
     const locationMap = new Map<string, Meeting[]>()
 
     travelCandidates.forEach(meeting => {
-      const location = normalizeLocation(meeting.location!)
+      const location = normalizeLocation(meeting.location?.address || '')
       if (!locationMap.has(location)) {
         locationMap.set(location, [])
       }
@@ -307,7 +308,7 @@ const TravelSuggestions: React.FC<TravelSuggestionsProps> = ({
           )
 
           return (
-            <Grid item xs={12} md={6} lg={4} key={index}>
+            <Grid size={{ xs: 12, md: 6, lg: 4 }} key={index}>
               <Card
                 sx={{
                   height: '100%',
@@ -451,7 +452,7 @@ const TravelSuggestions: React.FC<TravelSuggestionsProps> = ({
 
           <Box mt={2} mb={3}>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <OptimizeIcon color="primary" sx={{ mb: 1 }} />
                   <Typography variant="subtitle2">
@@ -462,7 +463,7 @@ const TravelSuggestions: React.FC<TravelSuggestionsProps> = ({
                   </Typography>
                 </Paper>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <ScheduleIcon color="primary" sx={{ mb: 1 }} />
                   <Typography variant="subtitle2">Smart Scheduling</Typography>
@@ -471,14 +472,14 @@ const TravelSuggestions: React.FC<TravelSuggestionsProps> = ({
                   </Typography>
                 </Paper>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <InsightsIcon color="primary" sx={{ mb: 1 }} />
                   <Typography variant="subtitle2">Cost Analysis</Typography>
                   <Typography variant="caption">Budget estimates</Typography>
                 </Paper>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <Paper sx={{ p: 2, textAlign: 'center' }}>
                   <EventIcon color="primary" sx={{ mb: 1 }} />
                   <Typography variant="subtitle2">Task Generation</Typography>

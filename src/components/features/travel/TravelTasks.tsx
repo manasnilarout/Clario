@@ -257,7 +257,7 @@ const TravelTasks: React.FC<TravelTasksProps> = ({ trip, onTaskUpdate }) => {
           </Box>
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Button
                 fullWidth
                 variant="outlined"
@@ -268,7 +268,7 @@ const TravelTasks: React.FC<TravelTasksProps> = ({ trip, onTaskUpdate }) => {
                 Generate Pre-Travel Tasks
               </Button>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Button
                 fullWidth
                 variant="outlined"
@@ -280,7 +280,7 @@ const TravelTasks: React.FC<TravelTasksProps> = ({ trip, onTaskUpdate }) => {
               </Button>
             </Grid>
             {trip.destinations.map((destination, index) => (
-              <Grid item xs={12} sm={6} md={3} key={destination.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={destination.id}>
                 <Button
                   fullWidth
                   variant="outlined"
