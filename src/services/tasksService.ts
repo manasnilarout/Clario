@@ -312,24 +312,17 @@ const generateTaskDependencies = (
 
 // Generate mock tasks
 const generateMockTasks = async (): Promise<Task[]> => {
-  console.log('generateMockTasks: Starting...')
-
   try {
-    console.log('generateMockTasks: Fetching contacts...')
-    const contacts = await contactsService.getContacts()
-    console.log('generateMockTasks: Got contacts:', contacts.length)
-
-    console.log('generateMockTasks: Fetching meetings...')
-    const meetings = await meetingsService.getMeetings()
-    console.log('generateMockTasks: Got meetings:', meetings.length)
+    // Batch async operations outside the loop for better performance
+    const [contacts, meetings] = await Promise.all([
+      contactsService.getContacts(),
+      meetingsService.getMeetings(),
+    ])
 
     const tasks: Task[] = []
 
-    console.log(
-      'generateMockTasks: Starting task generation loop for 50 tasks...'
-    )
-    // Generate 50 tasks (reduced from 250 for better performance)
-    for (let i = 0; i < 50; i++) {
+    // Generate 15 tasks for optimal performance
+    for (let i = 0; i < 15; i++) {
       // console.log(`generateMockTasks: Processing task ${i}/50...`)
       const taskType = getRandomItem(taskTypes)
       const category = getRandomItem(taskCategories)
@@ -374,14 +367,9 @@ const generateMockTasks = async (): Promise<Task[]> => {
           ? Math.floor(Math.random() * estimatedDuration)
           : 0
 
-      const checklistItems = await generateChecklistItems(
-        taskType,
-        Math.floor(Math.random() * 5) + 1
-      )
-      const comments = await generateTaskComments(
-        generateTaskId(),
-        Math.floor(Math.random() * 4)
-      )
+      // Simplified: no checklist items or comments for faster loading
+      const checklistItems: ChecklistItem[] = []
+      const comments: TaskComment[] = []
 
       const task: Task = {
         id: generateTaskId(),
@@ -432,18 +420,14 @@ const generateMockTasks = async (): Promise<Task[]> => {
       tasks.push(task)
     }
 
-    console.log('generateMockTasks: Generated', tasks.length, 'tasks')
+    // Skip dependency generation for faster loading
+    // tasks.forEach(task => {
+    //   task.dependencies = generateTaskDependencies(task.id, tasks)
+    // })
 
-    // Add dependencies after all tasks are created
-    tasks.forEach(task => {
-      task.dependencies = generateTaskDependencies(task.id, tasks)
-    })
-
-    console.log('generateMockTasks: Added dependencies, returning tasks')
     return tasks
   } catch (error) {
-    console.error('generateMockTasks: Error occurred:', error)
-    // Return empty array if something fails
+    console.error('Error generating mock tasks:', error)
     return []
   }
 }
